@@ -48,9 +48,11 @@ const checkoutSchema = z.object({
     .string()
     .length(3, { message: "CVV deve ter 3 dígitos" })
     .regex(/^\d{3}$/, { message: "CVV deve conter apenas números" }),
-  cardName: z.string().min(3, {
-    message: "Nome impresso no cartão deve ter pelo menos 3 caracteres",
-  }),
+  cardName: z
+    .string()
+    .min(3, {
+      message: "Nome impresso no cartão deve ter pelo menos 3 caracteres",
+    }),
   cpf: z
     .string()
     .length(14, { message: "CPF deve ter 11 dígitos" })
@@ -108,6 +110,7 @@ function CheckoutForm({
             type='tel'
             {...register("cardNumber")}
             placeholder='0000 0000 0000 0000'
+            aria-label='Número do cartão'
           />
           {errors.cardNumber && (
             <ErrorMessage>{errors.cardNumber.message}</ErrorMessage>
@@ -124,6 +127,7 @@ function CheckoutForm({
               type='tel'
               {...register("expiry")}
               placeholder='MM/AA'
+              aria-label='Data de validade'
             />
             {errors.expiry && (
               <ErrorMessage>{errors.expiry.message}</ErrorMessage>
@@ -139,6 +143,7 @@ function CheckoutForm({
               type='tel'
               {...register("cvv")}
               placeholder='000'
+              aria-label='CVV'
             />
             {errors.cvv && <ErrorMessage>{errors.cvv.message}</ErrorMessage>}
           </InputGroup>
@@ -151,6 +156,7 @@ function CheckoutForm({
             type='text'
             {...register("cardName")}
             placeholder='Seu nome'
+            aria-label='Nome impresso no cartão'
           />
           {errors.cardName && (
             <ErrorMessage>{errors.cardName.message}</ErrorMessage>
@@ -166,6 +172,7 @@ function CheckoutForm({
             type='tel'
             {...register("cpf")}
             placeholder='000.000.000-00'
+            aria-label='CPF'
           />
           {errors.cpf && <ErrorMessage>{errors.cpf.message}</ErrorMessage>}
         </InputGroup>
@@ -177,15 +184,14 @@ function CheckoutForm({
             type='text'
             {...register("cupom")}
             placeholder='Cupom (opcional)'
+            aria-label='Cupom'
           />
         </InputGroup>
 
         <InputGroup>
           <Label htmlFor='parcelas'>Número de Parcelas</Label>
           <Select id='parcelas' {...register("parcelas")}>
-            <option value=''>
-              Selecionar
-            </option>
+            <option value=''>Selecionar</option>
             {options.map((parcelas: number) => (
               <option key={parcelas} value={parcelas}>
                 {parcelas} parcela{parcelas > 1 ? "s" : ""}
@@ -199,12 +205,7 @@ function CheckoutForm({
 
         <SubmitButton type='submit' disabled={isPending}>
           {isPending ? (
-            <ClipLoader
-              color='#fff'
-              size={30}
-              aria-label='Loading Spinner'
-              data-testid='loader'
-            />
+            <ClipLoader color='#fff' size={30} aria-label='Loading Spinner' />
           ) : (
             "Finalizar pagamento"
           )}

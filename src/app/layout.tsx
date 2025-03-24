@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${dmSans.variable} font-work-sans`}>
+      <body className={`${dmSans.variable}`}>
         <QueryProvider>
           <Navbar />
           <main>{children}</main>

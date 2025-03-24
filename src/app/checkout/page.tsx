@@ -3,7 +3,7 @@
 import CheckoutForm, { CheckoutFormData } from "@/components/Forms/Checkout";
 import RadioButton from "@/components/RadioButton";
 import { usePlans } from "@/hooks/usePlans";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Icon,
@@ -24,8 +24,21 @@ const Checkout = () => {
   const { mutate: subscribe, isPending } = useSubscription();
 
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    if (plans && selectedCard) {
+      const selectedPlan = plans.find((plan) => plan.id.toString() === selectedCard);
+      setIsFormValid(!!selectedPlan);
+    }
+  }, [selectedCard, plans]);
 
   const onSubmit = (data: CheckoutFormData) => {
+    if (!isFormValid) {
+      toast.error("Por favor, selecione um plano antes de finalizar.");
+      return;
+    }
+
     subscribe(
       {
         couponCode: data.cupom || null,
@@ -42,8 +55,10 @@ const Checkout = () => {
       {
         onSuccess: () => {
           const plan = plans?.find((plan) => plan.id.toString() === selectedCard);
-          router.push(`/checkout/confirmation?cpf=${data.cpf}&plan=${plan?.title}&planPrice=${plan?.fullPrice}` );
-          toast.success("O pagamento foi um sucesso!");
+          if (plan) {
+            router.push(`/checkout/confirmation?cpf=${data.cpf}&plan=${plan.title}&planPrice=${plan.fullPrice}`);
+            toast.success("O pagamento foi um sucesso!");
+          }
         },
         onError: (error) => {
           toast.error("O pagamento falhou! Tente novamente.");
