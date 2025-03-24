@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
-import QueryProvider from "@/provider/QueryProvider";
+import QueryProvider from "@/lib/Query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "@/components/Navbar/Navbar";
+import StyledComponentsRegistry from "@/lib/Registry";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -25,12 +26,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${dmSans.variable}`}>
-        <QueryProvider>
-          <Navbar />
-          <main>{children}</main>
-          <ToastContainer />
-        </QueryProvider>
+      <body className={`${dmSans.variable} font-work-sans`}>
+        <StyledComponentsRegistry>
+          <QueryProvider>
+            <Navbar />
+            <main>{children}</main>
+            <ToastContainer />
+          </QueryProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
