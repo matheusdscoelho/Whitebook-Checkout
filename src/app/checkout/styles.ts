@@ -5,11 +5,14 @@ export const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  margin-top: 50px;
   @media (max-width: 768px) {
     flex-direction: column-reverse;
+     margin-top: 10px;
     padding: 20px;
     align-content: start;
     text-align: start;
+    gap: 1.5rem;
   }
 `;
 

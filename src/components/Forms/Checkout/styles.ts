@@ -35,7 +35,6 @@ export const Form = styled.form`
   width: 100%;
   max-width: 100%;
   margin-top: 1rem;
-  padding: 1rem;
 `;
 
 export const InputGroup = styled.div`
@@ -85,29 +84,26 @@ export const Input = styled.input`
   }
 `;
 
-export const Select = styled.select`
+export const Select = styled.select<{ hasValue: boolean }>`
   width: 100%;
   max-width: 100%;
-  padding: 8px 12px;
-  margin: 8px 0;
   border: none;
   border-bottom: 1px solid #ccc;
   font-size: 16px;
   font-weight: 400;
   background-color: #fff;
+  color: ${({ hasValue }) => (hasValue ? "#000" : "#c9c5d4")};
   cursor: pointer;
+  transition: color 0.3s ease;
 
   &:focus {
     outline: none;
     border-color: #007bff;
   }
 
-   &:invalid {
-    color: #C9C5D4;
-  }
-
   option {
     padding: 8px;
+    color: #000;
   }
 `;
 
@@ -134,7 +130,7 @@ export const SubmitButton = styled.button`
   padding: 0.75rem;
   border: none;
   border-radius: 1.563rem;
-  width: 70%;
+  width: 100%;
   height: 3.125rem;
   cursor: pointer;
   transition: background 0.3s;

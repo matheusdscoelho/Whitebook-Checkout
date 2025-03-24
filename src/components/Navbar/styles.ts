@@ -11,10 +11,10 @@ export const Nav = styled.nav`
   justify-content: center;
 `;
 
-export const BackButton = styled.button`
+export const BackButton = styled.div`
   color: #1f2937;
   padding: 8px;
-
+  cursor: pointer;
 `;
 
 export const LogoContainer = styled.div`

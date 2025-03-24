@@ -84,6 +84,7 @@ function CheckoutForm({
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<CheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
@@ -98,7 +99,7 @@ function CheckoutForm({
         alt='Cards Brands'
         width={215}
         height={50}
-        style={{ alignSelf: "center" }}
+        style={{ alignSelf: "center", marginTop:20 }}
       />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <InputGroup>
@@ -190,7 +191,7 @@ function CheckoutForm({
 
         <InputGroup>
           <Label htmlFor='parcelas'>Número de Parcelas</Label>
-          <Select id='parcelas' {...register("parcelas")}>
+          <Select id='parcelas' {...register("parcelas")} hasValue={!!watch("parcelas")}>
             <option value=''>Selecionar</option>
             {options.map((parcelas: number) => (
               <option key={parcelas} value={parcelas}>

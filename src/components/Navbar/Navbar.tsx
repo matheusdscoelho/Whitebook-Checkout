@@ -25,7 +25,7 @@ function Navbar() {
               alt='Logo'
               width={40}
               height={30}
-              style={{ marginRight: 48 }}
+              style={{ marginRight: 30 }}
             />
           </Link>
         </LogoContainer>

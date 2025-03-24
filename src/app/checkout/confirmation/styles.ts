@@ -16,7 +16,7 @@ export const Icon = styled.div`
   border: 2px solid #f4f3f6;
   padding: 20px;
   border-radius: 100%;
-  height:70px;
+  height: 70px;
 `;
 
 export const Title = styled.h4`
@@ -38,6 +38,8 @@ export const Card = styled.div`
   border-radius: 8px;
   margin-bottom: 20px;
   box-shadow: 0px 4px 20px 0px #0000000d;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 `;
 
 export const CardPlan = styled.h3`
@@ -53,6 +55,9 @@ export const CardPlan = styled.h3`
 
 export const CardContent = styled.div`
   font-size: 16px;
+    display: flex;
+  flex-direction: column;
+  gap: 2rem;
 `;
 
 export const ButtonsContainer = styled.div`
