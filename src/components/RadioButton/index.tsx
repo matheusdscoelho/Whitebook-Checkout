@@ -34,8 +34,8 @@ function RadioButton({ selected, plans, handleChange }: RadioButtonProps) {
             </Title>
             <PriceWrapper>
               <Price>
-                De {plan.fullPrice} | Por{" "}
-                {plan.fullPrice - plan.discountAmmount}
+                De R${plan.fullPrice} | Por{" "}
+                R${plan.fullPrice - plan.discountAmmount}
                 <PriceDiscount>-{plan.discountPercentage * 100}%</PriceDiscount>
               </Price>
             </PriceWrapper>
