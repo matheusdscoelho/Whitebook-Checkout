@@ -4,6 +4,8 @@ export const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  max-width: 20rem;
+  min-width: 20rem;
 `;
 
 export const CardOption = styled.div`
@@ -13,6 +15,7 @@ export const CardOption = styled.div`
   padding: 1rem;
   border: 1px solid #191847;
   border-radius: 15px;
+  cursor: pointer;
 `;
 
 export const RadioInput = styled.input`

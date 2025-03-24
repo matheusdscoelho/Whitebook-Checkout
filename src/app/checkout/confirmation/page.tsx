@@ -20,18 +20,14 @@ import {
   Subtitle,
   Title,
 } from "./styles";
+import { useSearchParams } from "next/navigation";
 
-interface ConfirmationProps {
-  plan: string;
-  cpf: string;
-  price: number;
-}
+export default function Confirmation() {
+  const params = useSearchParams()
+  const  cpf = params.get('cpf');
+  const  plan = params.get('plan');
+  const  planPrice = params.get('planPrice');
 
-export default function Confirmation({
-  plan = "Anual | A Vista",
-  cpf = "000.000.000-00",
-  price = 499,
-}: ConfirmationProps) {
   return (
     <Container>
       <Icon>
@@ -52,7 +48,7 @@ export default function Confirmation({
           <PlanInfo>
             <PlanText>{plan}</PlanText>
             <PlanSubText>
-              R${price} | 10x R${price / 10}
+              R${Number(planPrice ?? 0).toFixed(2)} | 10x R${(Number(planPrice ?? 0) / 10).toFixed(2)}
             </PlanSubText>
           </PlanInfo>
         </CardPlan>
@@ -69,8 +65,8 @@ export default function Confirmation({
       </Card>
 
       <ButtonsContainer>
-        <Button cancel>Gerenciar Assinatura</Button>
-        <Button>Ir para Home</Button>
+        <Button cancel='true'>Gerenciar Assinatura</Button>
+        <Button>IR PARA A HOME</Button>
       </ButtonsContainer>
     </Container>
   );

@@ -1,32 +1,35 @@
+import { AiTwotoneQuestionCircle } from "react-icons/ai";
 import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   @media (max-width: 768px) {
     flex-direction: column-reverse;
     padding: 20px;
+    align-content: start;
+    text-align: start;
   }
 `;
 
 export const PlanContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 30%;
   @media (max-width: 768px) {
     width: 100%;
     margin-bottom: 20px;
   }
 `;
 
-export const PlanTitle = styled.span`
+export const PlanTitle = styled.p`
   font-size: 20px;
   font-weight: 400;
   line-height: 100%;
   letter-spacing: -2%;
 `;
 
-export const PlanInfo = styled.span`
+export const PlanInfo = styled.p`
   font-size: 12px;
   font-weight: 400;
   line-height: 100%;
@@ -38,4 +41,20 @@ export const PlanInfo = styled.span`
   margin-top: 10px;
   margin-bottom: 30px;
   width: fit-content;
+`;
+
+export const InfoText = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  gap: 10px;
+  font-weight: 400;
+  font-size: 12px;
+`;
+
+export const Icon = styled(AiTwotoneQuestionCircle)`
+  margin-top: 3px;
+  width: 16px;
+  height: 16px;
 `;

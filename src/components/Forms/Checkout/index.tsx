@@ -19,9 +19,8 @@ import {
   SubmitButton,
 } from "./styles";
 import Image from "next/image";
-import { useSubscription } from "@/hooks/useSubscription";
-import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
+import { isValidCardNumber, isValidCPF } from "@/app/utils/functions";
 
 const options = [1, 2, 3, 4, 5, 6];
 
@@ -31,7 +30,14 @@ const checkoutSchema = z.object({
     .length(19, { message: "Número do cartão deve ter 16 dígitos" })
     .regex(/^[0-9 ]+$/, {
       message: "Número do cartão deve conter apenas números",
-    }),
+    })
+    .refine(
+      (val) => {
+        const cleanedCardNumber = val.replace(/\s/g, "");
+        return cleanedCardNumber.length === 16 && isValidCardNumber(val);
+      },
+      { message: "Número do cartão inválido" }
+    ),
   expiry: z
     .string()
     .length(5, { message: "Data de validade inválida" })
@@ -50,17 +56,29 @@ const checkoutSchema = z.object({
     .length(14, { message: "CPF deve ter 11 dígitos" })
     .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, {
       message: "Formato inválido. Exemplo: 000.000.000-00",
-    }),
+    })
+    .refine(
+      (val) => {
+        const cleanedCpf = val.replace(/\D/g, "");
+        return isValidCPF(cleanedCpf);
+      },
+      { message: "CPF inválido." }
+    ),
   cupom: z.string().optional(),
   parcelas: z
     .string()
     .min(1, { message: "Por favor, selecione o número de parcelas" }),
 });
 
-type CheckoutFormData = z.infer<typeof checkoutSchema>;
+export type CheckoutFormData = z.infer<typeof checkoutSchema>;
 
-function CheckoutForm() {
-  const router = useRouter();
+function CheckoutForm({
+  onSubmit,
+  isPending,
+}: {
+  onSubmit: (data: CheckoutFormData) => void;
+  isPending: boolean;
+}) {
   const {
     register,
     handleSubmit,
@@ -68,41 +86,18 @@ function CheckoutForm() {
   } = useForm<CheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
   });
-  const { mutate: subscribe } = useSubscription();
-
-  const onSubmit = (data: CheckoutFormData) => {
-    console.log("Form submitted", data);
-    subscribe(
-      {
-        couponCode: data.cupom || null,
-        creditCardCPF: data.cpf,
-        creditCardCVV: data.cvv,
-        creditCardExpirationDate: data.expiry,
-        creditCardHolder: data.cardName,
-        creditCardNumber: data.cardNumber.replace(/\s/g, ""),
-        gateway: "test_gateway",
-        installments: parseInt(data.parcelas),
-        offerId: 123,
-        userId: 456,
-      },
-      {
-        onSuccess: () => {
-          console.log("Payment successful!");
-          router.push("/checkout/confirmation");
-        },
-        onError: (error) => {
-          console.error("Payment failed", error);
-          toast.error("O pagamento falhou! Tente novamente.");
-        },
-      }
-    );
-  };
 
   return (
     <Container>
       <Title>Estamos quase lá!</Title>
       <SubtitleTitle>Insira seus dados de pagamento abaixo:</SubtitleTitle>
-      <Image src='/cardBrands.png' alt='Cards Brands' width={215} height={50} />
+      <Image
+        src='/cardBrands.png'
+        alt='Cards Brands'
+        width={215}
+        height={50}
+        style={{ alignSelf: "center" }}
+      />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <InputGroup>
           <Label htmlFor='cardNumber'>Número do Cartão</Label>
@@ -126,7 +121,7 @@ function CheckoutForm() {
               mask='__/__'
               replacement={{ _: /\d/ }}
               id='expiry'
-              type='text'
+              type='tel'
               {...register("expiry")}
               placeholder='MM/AA'
             />
@@ -141,7 +136,7 @@ function CheckoutForm() {
               mask='___'
               replacement={{ _: /\d/ }}
               id='cvv'
-              type='text'
+              type='tel'
               {...register("cvv")}
               placeholder='000'
             />
@@ -155,7 +150,7 @@ function CheckoutForm() {
             id='cardName'
             type='text'
             {...register("cardName")}
-            placeholder='Nome no cartão'
+            placeholder='Seu nome'
           />
           {errors.cardName && (
             <ErrorMessage>{errors.cardName.message}</ErrorMessage>
@@ -168,7 +163,7 @@ function CheckoutForm() {
             mask='___.___.___-__'
             replacement={{ _: /\d/ }}
             id='cpf'
-            type='text'
+            type='tel'
             {...register("cpf")}
             placeholder='000.000.000-00'
           />
@@ -188,7 +183,9 @@ function CheckoutForm() {
         <InputGroup>
           <Label htmlFor='parcelas'>Número de Parcelas</Label>
           <Select id='parcelas' {...register("parcelas")}>
-            <option value=''>Selecione o número de parcelas</option>
+            <option value=''>
+              Selecionar
+            </option>
             {options.map((parcelas: number) => (
               <option key={parcelas} value={parcelas}>
                 {parcelas} parcela{parcelas > 1 ? "s" : ""}
@@ -200,7 +197,18 @@ function CheckoutForm() {
           )}
         </InputGroup>
 
-        <SubmitButton type='submit'>Finalizar pagamento</SubmitButton>
+        <SubmitButton type='submit' disabled={isPending}>
+          {isPending ? (
+            <ClipLoader
+              color='#fff'
+              size={30}
+              aria-label='Loading Spinner'
+              data-testid='loader'
+            />
+          ) : (
+            "Finalizar pagamento"
+          )}
+        </SubmitButton>
       </Form>
     </Container>
   );

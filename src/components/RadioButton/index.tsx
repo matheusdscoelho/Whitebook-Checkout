@@ -1,7 +1,7 @@
 "use client";
 
 import { Plan } from "@/hooks/usePlans";
-import React, { useState } from "react";
+import React from "react";
 import {
   CardContainer,
   CardOption,
@@ -15,20 +15,19 @@ import {
 } from "./styles";
 
 interface RadioButtonProps {
+  selected: string | null;
   plans: Plan[];
+  handleChange: (planId: string) => void;
 }
 
-function RadioButton({ plans }: RadioButtonProps) {
-  const [selectedCard, setSelectedCard] = useState<string | null>(null);
-
-  const handleCardSelection = (cardId: string) => {
-    setSelectedCard(cardId);
-  };
-
+function RadioButton({ selected, plans, handleChange }: RadioButtonProps) {
   return (
     <CardContainer>
       {plans.map((plan) => (
-        <CardOption key={plan.id}>
+        <CardOption
+          key={plan.id}
+          onClick={() => handleChange(plan.id.toString())}
+        >
           <PlanDetails>
             <Title>
               {plan.title} | {plan.description}
@@ -50,8 +49,8 @@ function RadioButton({ plans }: RadioButtonProps) {
               id={plan.id.toString()}
               name='card'
               value={plan.id.toString()}
-              checked={selectedCard === plan.id.toString()}
-              onChange={() => handleCardSelection(plan.id.toString())}
+              checked={selected === plan.id.toString()}
+              onChange={() => handleChange(plan.id.toString())}
             />
           </div>
         </CardOption>

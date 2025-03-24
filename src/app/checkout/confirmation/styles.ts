@@ -4,17 +4,19 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   height: 100vh;
   text-align: center;
 `;
 
 export const Icon = styled.div`
+  margin-top: 90px;
   margin-bottom: 20px;
   font-size: 28px;
   border: 2px solid #f4f3f6;
   padding: 20px;
-  border-radius: 50%;
+  border-radius: 100%;
+  height:70px;
 `;
 
 export const Title = styled.h4`
@@ -49,7 +51,7 @@ export const CardPlan = styled.h3`
   padding: 10px;
 `;
 
-export const CardContent = styled.p`
+export const CardContent = styled.div`
   font-size: 16px;
 `;
 
@@ -59,9 +61,12 @@ export const ButtonsContainer = styled.div`
   gap: 20px;
 `;
 
-export const Button = styled.button<{ cancel?: boolean }>`
-  padding: 10px 20px;
-  font-size: 16px;
+export const Button = styled.button<{ cancel?: string }>`
+  padding: 15px 60px;
+  font-weight: 700;
+  letter-spacing: 5%;
+  font-family: "Product Sans", sans-serif;
+  font-size: 12px;
   background-color: ${(props) => (props.cancel ? "#FFF" : "#191847")};
   color: ${(props) => (props.cancel ? "#191847" : "#FFF")};
   border: none;
