@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import { CiStar } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa";
 import {
@@ -21,12 +21,13 @@ import {
   Title,
 } from "./styles";
 import { useSearchParams } from "next/navigation";
+import { ClipLoader } from "react-spinners";
 
-export default function Confirmation() {
-  const params = useSearchParams()
-  const  cpf = params.get('cpf');
-  const  plan = params.get('plan');
-  const  planPrice = params.get('planPrice');
+function ConfirmationContent() {
+  const params = useSearchParams();
+  const cpf = params.get("cpf");
+  const plan = params.get("plan");
+  const planPrice = params.get("planPrice");
 
   return (
     <Container>
@@ -48,7 +49,8 @@ export default function Confirmation() {
           <PlanInfo>
             <PlanText>{plan}</PlanText>
             <PlanSubText>
-              R${Number(planPrice ?? 0).toFixed(2)} | 10x R${(Number(planPrice ?? 0) / 10).toFixed(2)}
+              R${Number(planPrice ?? 0).toFixed(2)} | 10x R$
+              {(Number(planPrice ?? 0) / 10).toFixed(2)}
             </PlanSubText>
           </PlanInfo>
         </CardPlan>
@@ -69,5 +71,24 @@ export default function Confirmation() {
         <Button>IR PARA A HOME</Button>
       </ButtonsContainer>
     </Container>
+  );
+}
+
+export default function Confirmation() {
+  return (
+    <Suspense
+      fallback={
+        <div>
+          <ClipLoader
+            color='#191847'
+            size={100}
+            aria-label='Loading Spinner'
+            data-testid='loader'
+          />
+        </div>
+      }
+    >
+      <ConfirmationContent />
+    </Suspense>
   );
 }
