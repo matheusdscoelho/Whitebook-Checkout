@@ -1,5 +1,3 @@
-Aqui está o arquivo `README.md` com as modificações:
-
 ```markdown
 # Whitebook Checkout
 
