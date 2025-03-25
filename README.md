@@ -62,17 +62,17 @@ Este projeto utiliza [Cypress](https://www.cypress.io/) para garantir a qualidad
 
 1. **Instale as dependências de desenvolvimento**:
    ```bash
-   npm install --save-dev cypress
+   yarn add -D cypress
    ```
 
 2. **Para rodar os testes E2E**:
    ```bash
-   npm run test:e2e
+   yarn run test:e2e
    ```
 
 3. **Para rodar os testes de componente**:
    ```bash
-   npm run test:component
+   yarn run test:component
    ```
 
 ### Casos de Teste
@@ -128,6 +128,3 @@ Este projeto utiliza [Cypress](https://www.cypress.io/) para garantir a qualidad
     ```
 
 --- 
-```
-
-Este arquivo já está pronto para ser utilizado. Basta copiá-lo e salvar com o nome `README.md` no seu projeto.
