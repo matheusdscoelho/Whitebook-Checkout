@@ -1,4 +1,3 @@
-```markdown
 # Whitebook Checkout
 
 Whitebook Checkout é uma página de checkout para assinatura de planos. Nele, você pode:
@@ -37,7 +36,6 @@ Este projeto usa [Next.js](https://nextjs.org).
 
 O projeto atualiza automaticamente conforme você edita os arquivos.
 
----
 
 ## Bibliotecas utilizadas
 
